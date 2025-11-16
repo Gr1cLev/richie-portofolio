@@ -1,6 +1,6 @@
-# Portfolio Richie Giansanto - Next.js
+# Richie Giansanto - Portfolio Website
 
-Portfolio website modern dengan Next.js 15 dan Tailwind CSS.
+A modern, responsive portfolio website built with Next.js 16, Tailwind CSS v4, and React.
 
 ## 🚀 Quick Start
 
@@ -10,97 +10,46 @@ npm install
 
 # Run development server
 npm run dev
+
+# Build for production
+npm run build
 ```
 
-Buka `http://localhost:3000`
+Open `http://localhost:3000` to view the site.
 
-## 📁 Upload File Penting
+## 📁 Required Files
 
-Upload ke folder `public/`:
-1. **CV-RichieGiansanto.pdf** - File CV
-2. **upscalemedia-transformed.jpeg** - Foto profil
+Upload these files to the `public/` folder:
+1. **CV-RichieGiansanto.pdf** - Your CV/Resume
+2. **upscalemedia-transformed.jpeg** - Profile photo
 
-## ✨ Fitur
+## ✨ Features
 
-- ✅ Dark Mode dengan localStorage
-- ✅ Scroll Animations (Intersection Observer)
-- ✅ Responsive Design (Mobile-first)
-- ✅ Next.js Image Optimization
-- ✅ Scroll to Top Button
-- ✅ Mobile Menu
-- ✅ SEO Optimized
-
-## 📝 Struktur
-
-```
-richie-portofolio/
-├── app/
-│   ├── layout.js         # Root layout
-│   ├── page.js           # Homepage
-│   └── globals.css       # Global CSS
-├── components/
-│   ├── Header.js         # Navigation
-│   ├── Hero.js           # Hero section
-│   ├── About.js          # About section
-│   ├── Skills.js         # Skills section
-│   ├── Projects.js       # Projects
-│   ├── Contact.js        # Contact
-│   ├── Footer.js         # Footer
-│   ├── AnimatedSection.js  # Scroll animations
-│   └── ScrollToTopButton.js # Scroll button
-├── public/
-│   ├── CV-RichieGiansanto.pdf  ← Upload disini
-│   └── upscalemedia-transformed.jpeg  ← Upload disini
-└── tailwind.config.js    # Tailwind config
-```
+- Dark/Light mode toggle with localStorage persistence
+- Smooth scroll animations using Intersection Observer
+- Fully responsive design (mobile-first approach)
+- Animated gradient backgrounds
+- Next.js Image Optimization
+- Scroll to top button
+- SEO optimized
 
 ## 🛠️ Tech Stack
 
-- Next.js 15 (App Router)
-- Tailwind CSS 4.0
-- Inter Font (Google Fonts)
-- React Hooks
-- Intersection Observer API
+- **Framework**: Next.js 16.0.3
+- **Styling**: Tailwind CSS v4
+- **Font**: Inter (Google Fonts)
+- **Language**: JavaScript (React)
 
-## 📱 Customization
+## 🌐 Live Demo
 
-### Edit Info Personal (`components/About.js`)
-```javascript
-<li><strong>Nama:</strong> Nama Anda</li>
-<li><strong>Email:</strong> email@anda.com</li>
-```
+Visit the live site: [https://richieportofolio.vercel.app/](https://richieportofolio.vercel.app/)
 
-### Edit Skills (`components/Skills.js`)
-```javascript
-const webLangSkills = ['Python', 'JavaScript', ...];
-```
+## 📫 Contact
 
-### Edit Projects (`components/Projects.js`)
-```javascript
-const projects = [
-  { title: 'Title', description: '...', link: 'https://...' }
-];
-```
-
-## 🌐 Deployment
-
-### Vercel (Recommended)
-1. Push ke GitHub
-2. Connect ke Vercel
-3. Auto-deploy
-
-### Manual
-```bash
-npm run build
-npm start
-```
-
-## 📧 Contact
-
-- Email: richiegiansanto@gmail.com
-- GitHub: [@Gr1cLev](https://github.com/Gr1cLev)
-- LinkedIn: [Richie Giansanto](https://www.linkedin.com/in/richie-giansanto/)
+- **Email**: richiegiansanto@gmail.com
+- **GitHub**: [@Gr1cLev](https://github.com/Gr1cLev)
+- **LinkedIn**: [Richie Giansanto](https://www.linkedin.com/in/richie-giansanto/)
 
 ---
 
-© 2025 Richie Giansanto | Built with ❤️ using Next.js & Tailwind CSS
+© 2025 Richie Giansanto. All rights reserved.
