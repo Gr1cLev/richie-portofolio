@@ -70,7 +70,7 @@ export default function Header() {
             className="ml-4 px-3 py-1.5 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 focus:outline-none transition-colors border border-gray-300 dark:border-gray-600 rounded-md hover:border-orange-400 dark:hover:border-orange-500"
             aria-label="Toggle theme"
           >
-            {theme === 'dark' ? 'Light' : 'Dark'}
+            {theme === 'dark' ? 'Dark' : 'Light'}
           </button>
 
           <button

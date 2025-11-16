@@ -2,7 +2,8 @@ import AnimatedSection from './AnimatedSection';
 
 export default function Contact() {
   return (
-    <section id="contact" className="py-20 bg-light-bg dark:bg-gray-900">
+    <section id="contact" className="py-20 bg-light-bg dark:bg-gray-900 bg-animated-light">
+      <div></div>
       <div className="container mx-auto px-6 max-w-4xl">
         <AnimatedSection animation="fade-up" className="text-center">
           <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-4">Contact Me</h2>

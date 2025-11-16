@@ -3,7 +3,8 @@ import Image from 'next/image';
 
 export default function Hero() {
   return (
-    <section id="home" className="min-h-screen flex items-center bg-light-bg dark:bg-gray-900">
+    <section id="home" className="min-h-screen flex items-center bg-light-bg dark:bg-gray-900 bg-animated-light">
+      <div></div>
       <div className="container mx-auto px-6 py-20 max-w-6xl">
         <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-12">
           <AnimatedSection animation="fade-up" className="md:w-3/5 text-center md:text-left">
@@ -84,7 +85,7 @@ export default function Hero() {
                 src="/upscalemedia-transformed.jpeg"
                 alt="Foto Richie Giansanto"
                 fill
-                className="rounded-full object-cover shadow-2xl border-4 border-teal-500/50"
+                className="rounded-full object-cover shadow-2xl border-4 border-orange-500"
                 priority
               />
             </div>

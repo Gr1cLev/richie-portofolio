@@ -2,7 +2,8 @@ import AnimatedSection from './AnimatedSection';
 
 export default function About() {
   return (
-    <section id="about" className="py-20 bg-light-card dark:bg-gray-800">
+    <section id="about" className="py-20 bg-light-card dark:bg-gray-800 bg-animated-light">
+      <div></div>
       <div className="container mx-auto px-6 max-w-5xl">
         <AnimatedSection animation="fade-up" className="text-center">
           <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-4">
@@ -44,7 +45,7 @@ export default function About() {
                   <strong>Phone:</strong> +62 81385770691
                 </li>
                 <li>
-                  <strong>Education:</strong> B.S. Computer Science, UMN (GPA: 3.95)
+                  <strong>Education:</strong> Informatics Student, Universitas Multimedia Nusantara (GPA: 3.95)
                 </li>
               </ul>
               <a

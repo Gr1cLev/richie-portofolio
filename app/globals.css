@@ -27,6 +27,70 @@
   100% { opacity: 1; }
 }
 
+@keyframes floatLight {
+  0%, 100% { 
+    transform: translateY(0) scale(1);
+    opacity: 0.85;
+  }
+  33% { 
+    transform: translateY(-80px) scale(1.05);
+    opacity: 1;
+  }
+  66% { 
+    transform: translateY(-50px) scale(0.95);
+    opacity: 0.9;
+  }
+  75% { 
+    transform: translateY(-80px) scale(1.08);
+    opacity: 0.95;
+  }
+}
+
+@keyframes floatLight2 {
+  0%, 100% { 
+    transform: translateY(0) scale(1);
+    opacity: 0.75;
+  }
+  33% { 
+    transform: translateY(-90px) scale(1.2);
+    opacity: 0.9;
+  }
+  66% { 
+    transform: translateY(100px) scale(0.9);
+    opacity: 0.85;
+  }
+}
+
+@keyframes floatLight3 {
+  0%, 100% { 
+    transform: translateY(0) scale(1);
+    opacity: 0.8;
+  }
+  30% { 
+    transform: translateY(-70px) scale(1.1);
+    opacity: 0.95;
+  }
+  60% { 
+    transform: translateY(90px) scale(0.92);
+    opacity: 0.88;
+  }
+}
+
+@keyframes floatLight4 {
+  0%, 100% { 
+    transform: translateY(0) scale(1);
+    opacity: 0.78;
+  }
+  40% { 
+    transform: translateY(80px) scale(1.18);
+    opacity: 0.92;
+  }
+  70% { 
+    transform: translateY(-100px) scale(0.88);
+    opacity: 0.82;
+  }
+}
+
 /* Scroll smooth */
 html {
   scroll-behavior: smooth;
@@ -88,6 +152,89 @@ html {
 
 .dark ::-webkit-scrollbar-thumb:hover {
   background: #4b5563;
+}
+
+/* Background animated lights */
+.bg-animated-light {
+  position: relative;
+  overflow: hidden;
+}
+
+.bg-animated-light::before,
+.bg-animated-light::after,
+.bg-animated-light > div:first-of-type::before,
+.bg-animated-light > div:first-of-type::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform, opacity;
+}
+
+/* Top Right */
+.bg-animated-light::before {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(251, 146, 60, 0.85) 0%, rgba(251, 146, 60, 0.3) 50%, rgba(251, 146, 60, 0) 70%);
+  top: -15%;
+  right: -37%;
+  animation: floatLight 7s ease-in-out infinite;
+}
+
+/* Bottom Left */
+.bg-animated-light::after {
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.75) 0%, rgba(249, 115, 22, 0.25) 50%, rgba(249, 115, 22, 0) 70%);
+  bottom: -15%;
+  left: -37%;
+  animation: floatLight2 8s ease-in-out infinite;
+}
+
+/* Light orbs wrapper */
+.bg-animated-light > div:first-of-type {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Top Left */
+.bg-animated-light > div:first-of-type::before {
+  width: 650px;
+  height: 650px;
+  background: radial-gradient(circle, rgba(251, 146, 60, 0.8) 0%, rgba(251, 146, 60, 0.28) 50%, rgba(251, 146, 60, 0) 70%);
+  top: -15%;
+  left: -37%;
+  animation: floatLight3 6.5s ease-in-out infinite;
+}
+
+/* Bottom Right */
+.bg-animated-light > div:first-of-type::after {
+  width: 680px;
+  height: 680px;
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.78) 0%, rgba(249, 115, 22, 0.27) 50%, rgba(249, 115, 22, 0) 70%);
+  bottom: -15%;
+  right: -37%;
+  animation: floatLight4 7.5s ease-in-out infinite;
+}
+
+.dark .bg-animated-light::before,
+.dark .bg-animated-light > div:first-of-type::before {
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0) 70%);
+}
+
+.dark .bg-animated-light::after,
+.dark .bg-animated-light > div:first-of-type::after {
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 255, 255, 0) 70%);
+}
+
+/* Ensure content is above animated background */
+.bg-animated-light > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* Skill tag */
