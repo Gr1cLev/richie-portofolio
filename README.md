@@ -1,36 +1,106 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Portfolio Richie Giansanto - Next.js
 
-## Getting Started
+Portfolio website modern dengan Next.js 15 dan Tailwind CSS.
 
-First, run the development server:
+## 🚀 Quick Start
 
 ```bash
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Buka `http://localhost:3000`
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## 📁 Upload File Penting
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Upload ke folder `public/`:
+1. **CV-RichieGiansanto.pdf** - File CV
+2. **upscalemedia-transformed.jpeg** - Foto profil
 
-## Learn More
+## ✨ Fitur
 
-To learn more about Next.js, take a look at the following resources:
+- ✅ Dark Mode dengan localStorage
+- ✅ Scroll Animations (Intersection Observer)
+- ✅ Responsive Design (Mobile-first)
+- ✅ Next.js Image Optimization
+- ✅ Scroll to Top Button
+- ✅ Mobile Menu
+- ✅ SEO Optimized
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📝 Struktur
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+richie-portofolio/
+├── app/
+│   ├── layout.js         # Root layout
+│   ├── page.js           # Homepage
+│   └── globals.css       # Global CSS
+├── components/
+│   ├── Header.js         # Navigation
+│   ├── Hero.js           # Hero section
+│   ├── About.js          # About section
+│   ├── Skills.js         # Skills section
+│   ├── Projects.js       # Projects
+│   ├── Contact.js        # Contact
+│   ├── Footer.js         # Footer
+│   ├── AnimatedSection.js  # Scroll animations
+│   └── ScrollToTopButton.js # Scroll button
+├── public/
+│   ├── CV-RichieGiansanto.pdf  ← Upload disini
+│   └── upscalemedia-transformed.jpeg  ← Upload disini
+└── tailwind.config.js    # Tailwind config
+```
 
-## Deploy on Vercel
+## 🛠️ Tech Stack
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Next.js 15 (App Router)
+- Tailwind CSS 4.0
+- Inter Font (Google Fonts)
+- React Hooks
+- Intersection Observer API
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📱 Customization
+
+### Edit Info Personal (`components/About.js`)
+```javascript
+<li><strong>Nama:</strong> Nama Anda</li>
+<li><strong>Email:</strong> email@anda.com</li>
+```
+
+### Edit Skills (`components/Skills.js`)
+```javascript
+const webLangSkills = ['Python', 'JavaScript', ...];
+```
+
+### Edit Projects (`components/Projects.js`)
+```javascript
+const projects = [
+  { title: 'Title', description: '...', link: 'https://...' }
+];
+```
+
+## 🌐 Deployment
+
+### Vercel (Recommended)
+1. Push ke GitHub
+2. Connect ke Vercel
+3. Auto-deploy
+
+### Manual
+```bash
+npm run build
+npm start
+```
+
+## 📧 Contact
+
+- Email: richiegiansanto@gmail.com
+- GitHub: [@Gr1cLev](https://github.com/Gr1cLev)
+- LinkedIn: [Richie Giansanto](https://www.linkedin.com/in/richie-giansanto/)
+
+---
+
+© 2025 Richie Giansanto | Built with ❤️ using Next.js & Tailwind CSS

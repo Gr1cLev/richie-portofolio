@@ -1,26 +1,124 @@
+@config "../tailwind.config.js";
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --font-sans: 'var(--font-inter)', 'Inter', sans-serif;
+  
+  --color-light-bg: rgb(248 250 252);
+  --color-light-card: rgb(255 255 255);
+  
+  --animate-fade-in-up: fadeInUp 0.5s ease-out;
+  --animate-fade-in-left: fadeInLeft 0.5s ease-out;
+  --animate-fade-in: fadeIn 0.5s ease-out;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@keyframes fadeInLeft {
+  0% { opacity: 0; transform: translateX(-20px); }
+  100% { opacity: 1; transform: translateX(0); }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* Scroll smooth */
+html {
+  scroll-behavior: smooth;
+}
+
+/* CSS untuk animasi scroll */
+.animated-section {
+  opacity: 0;
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+/* State untuk fade up */
+.animated-section[data-animation="fade-up"] {
+  transform: translateY(30px);
+}
+
+/* State untuk fade left */
+.animated-section[data-animation="fade-left"] {
+  transform: translateX(-30px);
+}
+
+/* State untuk fade right */
+.animated-section[data-animation="fade-right"] {
+  transform: translateX(30px);
+}
+
+/* Saat elemen terlihat */
+.animated-section.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #e5e7eb;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #9ca3af;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
+
+/* Dark mode scrollbar */
+.dark ::-webkit-scrollbar-track {
+  background: #1f2937;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #374151;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #4b5563;
+}
+
+/* Skill tag */
+.skill-tag {
+  padding: 0.375rem 1rem;
+  border-width: 1px;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+  border-color: rgb(209 213 219);
+  color: rgb(55 65 81);
+}
+
+.dark .skill-tag {
+  border-color: rgb(75 85 99);
+  color: rgb(209 213 219);
+}
+
+.skill-tag:hover {
+  background-color: rgb(255 247 237);
+  border-color: rgb(251 146 60);
+  color: rgb(194 65 12);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  transform: scale(1.05);
+}
+
+.dark .skill-tag:hover {
+  background-color: rgb(55 65 81);
+  border-color: rgb(249 115 22);
+  color: rgb(254 215 170);
 }
