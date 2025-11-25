@@ -1,5 +1,6 @@
 import './globals.css';
 import { Inter } from 'next/font/google';
+import ChatBotWrapper from '../components/ChatBotWrapper';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
@@ -28,6 +29,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className="bg-light-bg text-gray-800 dark:bg-gray-900 dark:text-gray-100 font-sans leading-relaxed transition-colors duration-300">
         {children}
+        <ChatBotWrapper />
       </body>
     </html>
   );

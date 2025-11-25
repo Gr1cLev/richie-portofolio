@@ -11,6 +11,12 @@ export default function Header() {
   });
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  const openChatbot = () => {
+    if (typeof window !== 'undefined' && window.openChatbot) {
+      window.openChatbot();
+    }
+  };
+
   useEffect(() => {
     if (typeof window === 'undefined') return;
     
@@ -56,11 +62,18 @@ export default function Header() {
             </a>
           </div>
 
+          <button
+            onClick={openChatbot}
+            className="hidden md:block ml-6 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md transition-all transform hover:scale-105"
+          >
+            AI Assistant
+          </button>
+
           <a
             href="/CV-RichieGiansanto.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden md:block ml-6 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg shadow-md transition-all transform hover:scale-105"
+            className="hidden md:block ml-3 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg shadow-md transition-all transform hover:scale-105"
           >
             View My CV
           </a>
@@ -121,6 +134,15 @@ export default function Header() {
           >
             Contact
           </a>
+          <button
+            onClick={() => {
+              closeMobile();
+              openChatbot();
+            }}
+            className="block w-full text-center mt-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md transition-all"
+          >
+            AI Assistant
+          </button>
           <a
             href="/CV-RichieGiansanto.pdf"
             target="_blank"
