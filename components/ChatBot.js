@@ -1,10 +1,11 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { 
-  Send, 
-  Bot, 
-  User, 
+import Markdown from 'react-markdown';
+import {
+  Send,
+  Bot,
+  User,
   Sparkles,
   RefreshCw,
   MessageCircle,
@@ -16,7 +17,7 @@ export default function ChatBot({ externalOpen, onExternalClose }) {
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
-  
+
   // Sync with external control
   useEffect(() => {
     if (externalOpen !== undefined) {
@@ -28,7 +29,7 @@ export default function ChatBot({ externalOpen, onExternalClose }) {
     setIsOpen(false);
     onExternalClose?.();
   };
-  
+
   // Data pesan awal
   const [messages, setMessages] = useState([
     {
@@ -73,7 +74,7 @@ export default function ChatBot({ externalOpen, onExternalClose }) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           message: userMessage,
           conversationHistory: messages.map(m => ({
             role: m.sender === 'user' ? 'user' : 'model',
@@ -87,7 +88,7 @@ export default function ChatBot({ externalOpen, onExternalClose }) {
       }
 
       const data = await response.json();
-      
+
       const newBotMsg = {
         id: Date.now() + 1,
         text: data.reply || 'Maaf, saya tidak dapat memproses permintaan Anda saat ini.',
@@ -98,14 +99,14 @@ export default function ChatBot({ externalOpen, onExternalClose }) {
       setMessages((prev) => [...prev, newBotMsg]);
     } catch (error) {
       console.error('Error:', error);
-      
+
       let errorText = 'Maaf, terjadi kesalahan. Silakan coba lagi nanti.';
-      
+
       // Check if it's a rate limit error
       if (error.message && (error.message.includes('429') || error.message.includes('rate limit') || error.message.includes('quota'))) {
         errorText = '⚠️ Mencapai Rate Limit Penggunaan! Hubungi Richie untuk memperbarui limitnya.';
       }
-      
+
       const errorMsg = {
         id: Date.now() + 1,
         text: errorText,
@@ -158,16 +159,16 @@ export default function ChatBot({ externalOpen, onExternalClose }) {
       {/* Chat Box - Muncul di tengah saat dibuka */}
       {isOpen && (
         <div className="fixed inset-0 z-40 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fadeIn">
-          <div 
+          <div
             className="w-full max-w-2xl h-[600px] bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col animate-scaleIn"
             onClick={(e) => e.stopPropagation()}
           >
-            
+
             {/* --- HEADER --- */}
             <header className="flex-none h-14 flex items-center justify-between px-4 border-b border-gray-100 bg-white shadow-sm z-10">
               <div className="flex items-center gap-2">
                 <div className="bg-indigo-600 p-1.5 rounded-lg">
-                   <Sparkles className="w-4 h-4 text-white" />
+                  <Sparkles className="w-4 h-4 text-white" />
                 </div>
                 <div>
                   <h1 className="font-bold text-gray-800 text-sm leading-tight">Richie&apos;s AI</h1>
@@ -177,17 +178,17 @@ export default function ChatBot({ externalOpen, onExternalClose }) {
                   </p>
                 </div>
               </div>
-              
+
               {/* Tombol Reset & Close */}
               <div className="flex items-center gap-2">
-                <button 
+                <button
                   onClick={handleReset}
                   className="p-1.5 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-full transition-colors"
                   title="Ulangi Chat"
                 >
                   <RefreshCw className="w-4 h-4" />
                 </button>
-                <button 
+                <button
                   onClick={handleClose}
                   className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-colors"
                   title="Tutup"
@@ -200,16 +201,16 @@ export default function ChatBot({ externalOpen, onExternalClose }) {
             {/* --- CHAT AREA --- */}
             <div className="flex-1 overflow-y-auto p-4 space-y-5 bg-gray-50/50 scroll-smooth">
               {messages.map((msg) => (
-                <div 
-                  key={msg.id} 
+                <div
+                  key={msg.id}
                   className={`flex w-full ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   <div className={`flex max-w-[85%] gap-2 ${msg.sender === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
-                    
+
                     {/* Avatar */}
                     <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1 shadow-sm
-                      ${msg.sender === 'user' 
-                        ? 'bg-blue-500 text-white' 
+                      ${msg.sender === 'user'
+                        ? 'bg-blue-500 text-white'
                         : 'bg-indigo-600 text-white'
                       }`}
                     >
@@ -219,12 +220,35 @@ export default function ChatBot({ externalOpen, onExternalClose }) {
                     {/* Bubble Message */}
                     <div className="flex flex-col gap-1">
                       <div className={`px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed shadow-sm
-                        ${msg.sender === 'user' 
+                        ${msg.sender === 'user'
                           ? 'bg-blue-100 text-gray-800 rounded-tr-none'
                           : 'bg-white border border-gray-200 text-gray-700 rounded-tl-none'
                         }`}
                       >
-                        {msg.text}
+                        {msg.sender === 'bot' ? (
+                          <Markdown
+                            components={{
+                              p: ({ children }) => <p className="mb-1 last:mb-0">{children}</p>,
+                              strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
+                              em: ({ children }) => <em className="italic">{children}</em>,
+                              a: ({ href, children }) => (
+                                <a href={href} target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:underline">
+                                  {children}
+                                </a>
+                              ),
+                              ul: ({ children }) => <ul className="list-disc list-inside my-1">{children}</ul>,
+                              ol: ({ children }) => <ol className="list-decimal list-inside my-1">{children}</ol>,
+                              li: ({ children }) => <li className="ml-2">{children}</li>,
+                              code: ({ children }) => (
+                                <code className="bg-gray-100 px-1 py-0.5 rounded text-xs font-mono">{children}</code>
+                              ),
+                            }}
+                          >
+                            {msg.text}
+                          </Markdown>
+                        ) : (
+                          msg.text
+                        )}
                       </div>
                       <span className={`text-[10px] text-gray-400 ${msg.sender === 'user' ? 'text-right' : 'text-left'}`}>
                         {formatTime(msg.timestamp)}
@@ -249,14 +273,14 @@ export default function ChatBot({ externalOpen, onExternalClose }) {
                   </div>
                 </div>
               )}
-              
+
               {/* Spacer untuk scroll */}
               <div ref={messagesEndRef} />
             </div>
 
             {/* --- INPUT AREA --- */}
             <div className="bg-white p-3 border-t border-gray-100">
-              <form 
+              <form
                 onSubmit={handleSendMessage}
                 className="relative flex items-end gap-2 bg-white border border-gray-200 rounded-2xl px-2 py-2 focus-within:ring-2 focus-within:ring-indigo-100 focus-within:border-indigo-400 transition-all shadow-sm"
               >
@@ -276,12 +300,12 @@ export default function ChatBot({ externalOpen, onExternalClose }) {
                   disabled={isTyping}
                 />
 
-                <button 
+                <button
                   type="submit"
                   disabled={!inputText.trim() || isTyping}
                   className={`p-2 rounded-xl transition-all duration-200 flex-shrink-0 flex items-center justify-center mb-0.5
                     ${inputText.trim() && !isTyping
-                      ? 'bg-indigo-600 text-white shadow-md hover:bg-indigo-700 transform hover:scale-105' 
+                      ? 'bg-indigo-600 text-white shadow-md hover:bg-indigo-700 transform hover:scale-105'
                       : 'bg-gray-100 text-gray-300 cursor-not-allowed'
                     }`}
                 >
