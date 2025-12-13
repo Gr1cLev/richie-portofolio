@@ -7,17 +7,24 @@ const vectorIndex = new Index({
   token: process.env.UPSTASH_VECTOR_REST_TOKEN,
 });
 
-// System prompt untuk Gemini
-const SYSTEM_PROMPT = `Kamu adalah asisten AI yang membantu pengunjung website mengenali Richie Giansanto dengan lebih baik.
+// System prompt untuk Gemini (base prompt)
+const SYSTEM_PROMPT_BASE = `Kamu adalah asisten AI yang membantu pengunjung website mengenali Richie Giansanto dengan lebih baik.
 
 CARA BERKOMUNIKASI:
 - Jawab pertanyaan dengan ramah dan informatif
-- Gunakan informasi dari KONTEKS yang diberikan untuk menjawab pertanyaan tentang Richie
-- Jika pertanyaan di luar topik Richie, TETAP JAWAB dengan baik dan helpful, namun di akhir respons tambahkan kalimat seperti: "Btw, pertanyaan ini di luar konteks tentang saya ya 😊 Ada yang ingin ditanyakan tentang Richie?"
 - Gunakan bahasa Indonesia yang natural dan friendly
 - Jika tidak yakin tentang informasi tertentu tentang Richie, jujur sampaikan bahwa informasi tersebut tidak tersedia
 
 Ingat: Kamu adalah asisten yang membantu mengenalkan Richie kepada pengunjung website portofolionya.`;
+
+// Instruksi tambahan jika pertanyaan relevan (ada konteks dari RAG)
+const INSTRUCTION_ON_TOPIC = `
+Gunakan informasi dari KONTEKS yang diberikan untuk menjawab pertanyaan tentang Richie dengan akurat.`;
+
+// Instruksi tambahan jika pertanyaan off-topic (tidak ada konteks dari RAG)
+const INSTRUCTION_OFF_TOPIC = `
+Pertanyaan ini sepertinya di luar konteks tentang Richie karena tidak ditemukan informasi relevan di knowledge base.
+TETAP JAWAB pertanyaan dengan baik dan helpful, namun di AKHIR respons, tambahkan pengingat sopan seperti: "Btw, pertanyaan ini di luar konteks tentang Richie nih 😊 Ada yang ingin ditanyakan tentang Richie?"`;
 
 // Fungsi untuk generate embedding menggunakan Gemini
 async function getQueryEmbedding(text) {
@@ -103,10 +110,19 @@ export async function POST(request) {
       // Fallback: lanjut tanpa context jika RAG gagal
     }
 
-    // 3. Build prompt dengan retrieved context
-    const contextPrompt = retrievedContext
-      ? `\n\nKONTEKS TENTANG RICHIE (gunakan ini untuk menjawab):\n${retrievedContext}`
-      : "";
+    // 3. Build prompt dengan retrieved context (dinamis berdasarkan hasil RAG)
+    const isOnTopic = retrievedContext && retrievedContext.trim().length > 0;
+
+    let systemPrompt = SYSTEM_PROMPT_BASE;
+
+    if (isOnTopic) {
+      // Ada context relevan dari RAG → pertanyaan on-topic
+      systemPrompt += INSTRUCTION_ON_TOPIC;
+      systemPrompt += `\n\nKONTEKS TENTANG RICHIE:\n${retrievedContext}`;
+    } else {
+      // Tidak ada context dari RAG → pertanyaan off-topic
+      systemPrompt += INSTRUCTION_OFF_TOPIC;
+    }
 
     // Siapkan history conversation untuk Gemini
     const contents = [];
@@ -114,7 +130,7 @@ export async function POST(request) {
     // Tambahkan system instruction dengan context
     contents.push({
       role: 'user',
-      parts: [{ text: SYSTEM_PROMPT + contextPrompt }]
+      parts: [{ text: systemPrompt }]
     });
 
     contents.push({
