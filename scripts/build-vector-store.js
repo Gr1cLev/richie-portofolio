@@ -26,7 +26,8 @@ function getDb() {
       }),
     });
   }
-  return getFirestore();
+  const dbId = process.env.FIRESTORE_DATABASE_ID;
+  return dbId ? getFirestore(dbId) : getFirestore();
 }
 
 // === Gemini Embedding ===
@@ -35,12 +36,12 @@ async function getEmbedding(text) {
   if (!apiKey) throw new Error('GEMINI_API_KEY tidak ditemukan');
 
   const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004:embedContent?key=${apiKey}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-2:embedContent?key=${apiKey}`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'models/text-embedding-004',
+        model: 'models/gemini-embedding-2',
         content: { parts: [{ text }] },
       }),
     }
@@ -149,22 +150,54 @@ async function upsertFile(db, sourceFile) {
   console.log(`  ✨ ${chunks.length} chunk berhasil di-index dari ${sourceFile}\n`);
 }
 
+// === Delete chunks dari Firestore untuk satu file ===
+async function deleteFile(db, sourceFile) {
+  const col = db.collection(COLLECTION);
+  const existing = await col.where('source_file', '==', sourceFile).get();
+  if (existing.empty) {
+    console.log(`  ℹ️  Tidak ada chunk untuk ${sourceFile} di Firestore.\n`);
+    return;
+  }
+  await Promise.all(existing.docs.map((d) => d.ref.delete()));
+  console.log(`  🗑️  Deleted ${existing.size} chunk dari ${sourceFile}\n`);
+}
+
 // === Main ===
 async function main() {
   console.log('🚀 Knowledge Base Vector Builder\n');
 
   const db = getDb();
 
-  // Cek apakah ada argumen --file atau nama file langsung
   const args = process.argv.slice(2);
-  let targetFiles = [];
 
+  // Mode --delete: hapus chunks dari Firestore tanpa butuh file MD-nya
+  // Usage: node scripts/build-vector-store.js --delete skills.md career-goals.md
+  if (args[0] === '--delete') {
+    const filesToDelete = args.slice(1).map((a) => (a.endsWith('.md') ? a : `${a}.md`));
+    if (filesToDelete.length === 0) {
+      console.error('❌ Harap sebutkan nama file setelah --delete. Contoh: --delete skills.md');
+      process.exit(1);
+    }
+    console.log(`🗑️  Mode: Delete chunks untuk ${filesToDelete.join(', ')}\n`);
+    for (const file of filesToDelete) {
+      console.log(`📂 Deleting: ${file}`);
+      await deleteFile(db, file);
+    }
+    const allDocs = await db.collection(COLLECTION).get();
+    console.log('─'.repeat(50));
+    console.log(`✅ Selesai! Total chunks tersisa di Firestore: ${allDocs.size}`);
+    console.log('─'.repeat(50));
+    process.exit(0);
+  }
+
+  // Mode normal: upsert file
+  let targetFiles = [];
   if (args.length > 0) {
-    // Mode partial: proses file tertentu saja
+    // Partial update
     targetFiles = args.map((a) => (a.endsWith('.md') ? a : `${a}.md`));
     console.log(`📌 Mode: Partial update untuk ${targetFiles.join(', ')}\n`);
   } else {
-    // Mode full: proses semua .md file di docs/knowledge/
+    // Full rebuild
     targetFiles = readdirSync(KNOWLEDGE_DIR).filter((f) => f.endsWith('.md'));
     console.log(`📌 Mode: Full rebuild (${targetFiles.length} file)\n`);
   }
