@@ -8,7 +8,7 @@
 import { readFileSync, readdirSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { initializeApp, getApps, cert } from 'firebase-admin/app';
+import { initializeApp, getApps, getApp, cert } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -17,17 +17,18 @@ const COLLECTION = 'knowledge_vectors';
 
 // === Firestore Init ===
 function getDb() {
-  if (getApps().length === 0) {
-    initializeApp({
-      credential: cert({
-        projectId: process.env.FIRESTORE_PROJECT_ID,
-        clientEmail: process.env.FIRESTORE_CLIENT_EMAIL,
-        privateKey: process.env.FIRESTORE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-      }),
-    });
-  }
+  const app = getApps().length === 0 
+    ? initializeApp({
+        credential: cert({
+          projectId: process.env.FIRESTORE_PROJECT_ID,
+          clientEmail: process.env.FIRESTORE_CLIENT_EMAIL,
+          privateKey: process.env.FIRESTORE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+        }),
+      })
+    : getApp();
+
   const dbId = process.env.FIRESTORE_DATABASE_ID;
-  return dbId ? getFirestore(dbId) : getFirestore();
+  return dbId ? getFirestore(app, dbId) : getFirestore();
 }
 
 // === Gemini Embedding ===
