@@ -6,11 +6,7 @@ export default function ScrollToTopButton() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => {
-      if (window.scrollY > 300) setVisible(true);
-      else setVisible(false);
-    };
-
+    const onScroll = () => setVisible(window.scrollY > 300);
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -20,17 +16,11 @@ export default function ScrollToTopButton() {
   return (
     <button
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-      className="fixed bottom-6 right-6 bg-teal-500 hover:bg-teal-600 text-white p-3 rounded-full shadow-lg transition-all transform hover:scale-110 focus:outline-none z-50"
       aria-label="Scroll to top"
+      className="fixed bottom-24 md:bottom-6 left-6 z-50 w-10 h-10 glass rounded-full flex items-center justify-center text-white/60 hover:text-white transition-all duration-200 hover:scale-110 hover:shadow-[0_0_16px_rgba(255,255,255,0.15)]"
     >
-      <svg
-        className="w-6 h-6"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7"></path>
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
       </svg>
     </button>
   );

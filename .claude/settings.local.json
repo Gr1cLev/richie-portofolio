@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(taskkill /f /im node.exe)",
+      "Bash(Remove-Item -Force \".next\\\\lock\" -ErrorAction SilentlyContinue)",
+      "PowerShell(Stop-Process -Name \"node\" -Force -ErrorAction SilentlyContinue)"
+    ]
+  }
+}

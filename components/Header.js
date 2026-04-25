@@ -1,15 +1,16 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+
+const navLinks = [
+  { href: '#about', label: 'About' },
+  { href: '#skills', label: 'Skills' },
+  { href: '#projects', label: 'Projects' },
+  { href: '#contact', label: 'Contact' },
+];
 
 export default function Header() {
-  const [theme, setTheme] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('theme') || 'light';
-    }
-    return 'light';
-  });
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeLink, setActiveLink] = useState('');
 
   const openChatbot = () => {
     if (typeof window !== 'undefined' && window.openChatbot) {
@@ -17,143 +18,101 @@ export default function Header() {
     }
   };
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [theme]);
-
-  const toggleTheme = () => {
-    const next = theme === 'dark' ? 'light' : 'dark';
-    setTheme(next);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('theme', next);
-    }
-  };
-
-  const closeMobile = () => setMobileOpen(false);
-
   return (
-    <header className="bg-light-bg/80 dark:bg-gray-900/80 backdrop-blur-md sticky top-0 z-50 w-full shadow-lg">
-      <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
+    <>
+      {/* ── Desktop: Floating Pill Nav ── */}
+      <header className="fixed top-5 left-1/2 -translate-x-1/2 z-50 hidden md:flex items-center gap-0.5 px-2.5 py-2 glass rounded-full">
         <a
           href="#home"
-          className="text-2xl font-bold text-gray-900 dark:text-white hover:text-orange-500 dark:hover:text-orange-400 transition-colors"
+          className="text-white font-bold text-sm px-3 py-1.5 rounded-full hover:bg-white/10 transition-all duration-200"
         >
-          Richie Giansanto
+          RG
         </a>
-        <div className="flex items-center">
-          <div className="hidden md:flex space-x-6">
-            <a href="#about" className="text-gray-600 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 transition-colors">
-              About Me
-            </a>
-            <a href="#skills" className="text-gray-600 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 transition-colors">
-              Skills
-            </a>
-            <a href="#projects" className="text-gray-600 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 transition-colors">
-              Projects
-            </a>
-            <a href="#contact" className="text-gray-600 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 transition-colors">
-              Contact
-            </a>
-          </div>
 
-          <button
-            onClick={openChatbot}
-            className="hidden md:block ml-6 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md transition-all transform hover:scale-105"
-          >
-            AI Assistant
-          </button>
+        <div className="w-px h-4 bg-white/15 mx-1" />
 
+        {navLinks.map((link) => (
           <a
-            href="/CV-RichieGiansanto.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden md:block ml-3 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg shadow-md transition-all transform hover:scale-105"
+            key={link.href}
+            href={link.href}
+            onClick={() => setActiveLink(link.href)}
+            className={`text-sm px-3 py-1.5 rounded-full transition-all duration-200 ${
+              activeLink === link.href
+                ? 'bg-white/15 text-white'
+                : 'text-white/65 hover:text-white hover:bg-white/10'
+            }`}
           >
-            View My CV
+            {link.label}
           </a>
+        ))}
 
-          <button
-            onClick={toggleTheme}
-            className="ml-4 px-3 py-1.5 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 focus:outline-none transition-colors border border-gray-300 dark:border-gray-600 rounded-md hover:border-orange-400 dark:hover:border-orange-500"
-            aria-label="Toggle theme"
-          >
-            {theme === 'dark' ? 'Dark' : 'Light'}
-          </button>
+        <div className="w-px h-4 bg-white/15 mx-1" />
 
-          <button
-            onClick={() => setMobileOpen((prev) => !prev)}
-            className="md:hidden ml-4 text-gray-600 dark:text-gray-300 focus:outline-none"
-            aria-label="Toggle mobile menu"
-          >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-            </svg>
-          </button>
-        </div>
+        <button
+          onClick={openChatbot}
+          className="glass-orange text-white/85 hover:text-white text-sm px-3 py-1.5 rounded-full transition-all duration-200 hover:scale-105 font-medium"
+        >
+          AI Chat
+        </button>
+
+        <a
+          href="/CV-RichieGiansanto.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="ml-1 text-white text-sm px-3.5 py-1.5 rounded-full bg-orange-500/75 hover:bg-orange-500 transition-all duration-200 hover:scale-105 font-semibold shadow-[0_0_14px_rgba(255,159,64,0.35)]"
+        >
+          CV
+        </a>
+      </header>
+
+      {/* ── Mobile: Bottom Dock ── */}
+      <nav className="md:hidden fixed bottom-5 left-1/2 -translate-x-1/2 z-50 flex items-center gap-0 px-2 py-2 glass rounded-full">
+        <a href="#home" aria-label="Home" className="flex flex-col items-center px-3 py-1 text-white/60 hover:text-white transition-colors">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+          <span className="text-[9px] mt-0.5 font-medium">Home</span>
+        </a>
+
+        <a href="#about" aria-label="About" className="flex flex-col items-center px-3 py-1 text-white/60 hover:text-white transition-colors">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+          </svg>
+          <span className="text-[9px] mt-0.5 font-medium">About</span>
+        </a>
+
+        <a href="#skills" aria-label="Skills" className="flex flex-col items-center px-3 py-1 text-white/60 hover:text-white transition-colors">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+          <span className="text-[9px] mt-0.5 font-medium">Skills</span>
+        </a>
+
+        <a href="#projects" aria-label="Projects" className="flex flex-col items-center px-3 py-1 text-white/60 hover:text-white transition-colors">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+          </svg>
+          <span className="text-[9px] mt-0.5 font-medium">Projects</span>
+        </a>
+
+        <a href="#contact" aria-label="Contact" className="flex flex-col items-center px-3 py-1 text-white/60 hover:text-white transition-colors">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+          <span className="text-[9px] mt-0.5 font-medium">Contact</span>
+        </a>
+
+        <button
+          onClick={openChatbot}
+          aria-label="AI Chat"
+          className="flex flex-col items-center px-3 py-1 text-orange-300/80 hover:text-orange-300 transition-colors"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+          </svg>
+          <span className="text-[9px] mt-0.5 font-medium">AI</span>
+        </button>
       </nav>
-
-      {mobileOpen && (
-        <div className="md:hidden px-6 pb-4 space-y-2 bg-light-bg/95 dark:bg-gray-900/95">
-          <a
-            href="#about"
-            onClick={closeMobile}
-            className="block text-gray-600 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 transition-colors"
-          >
-            About Me
-          </a>
-          <a
-            href="#skills"
-            onClick={closeMobile}
-            className="block text-gray-600 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 transition-colors"
-          >
-            Skills
-          </a>
-          <a
-            href="#projects"
-            onClick={closeMobile}
-            className="block text-gray-600 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 transition-colors"
-          >
-            Projects
-          </a>
-          <a
-            href="#contact"
-            onClick={closeMobile}
-            className="block text-gray-600 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 transition-colors"
-          >
-            Contact
-          </a>
-          <button
-            onClick={() => {
-              closeMobile();
-              openChatbot();
-            }}
-            className="block w-full text-center mt-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md transition-all"
-          >
-            AI Assistant
-          </button>
-          <a
-            href="/CV-RichieGiansanto.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={closeMobile}
-            className="block w-full text-center mt-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg shadow-md transition-all"
-          >
-            View My CV
-          </a>
-        </div>
-      )}
-    </header>
+    </>
   );
 }

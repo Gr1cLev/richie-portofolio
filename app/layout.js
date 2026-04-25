@@ -11,27 +11,18 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="id" className={`scroll-smooth ${inter.variable}`} suppressHydrationWarning>
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                  document.documentElement.classList.add('dark');
-                } else {
-                  document.documentElement.classList.remove('dark');
-                }
-              })();
-            `,
-          }}
-        />
-      </head>
-      <body className="bg-light-bg text-gray-800 dark:bg-gray-900 dark:text-gray-100 font-sans leading-relaxed transition-colors duration-300">
-        {children}
+    <html lang="id" className={`scroll-smooth ${inter.variable}`}>
+      <body className="min-h-screen font-sans leading-relaxed antialiased">
+        {/* Aurora orbs — fixed behind all content */}
+        <div className="aurora-orbs" aria-hidden="true" />
+        <div className="aurora-orb-3" aria-hidden="true" />
+        <div className="aurora-orb-4" aria-hidden="true" />
+        {/* Content layer */}
+        <div className="relative z-10">
+          {children}
+        </div>
         <ChatBotWrapper />
       </body>
     </html>
   );
 }
-
