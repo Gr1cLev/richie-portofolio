@@ -66,7 +66,7 @@ export default function About() {
               </ul>
 
               <a
-                href="/CV-RichieGiansanto.pdf"
+                href="/CV-RichieGiansanto-AI.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-primary mt-7 block text-center py-2.5 px-5 rounded-2xl text-white font-semibold text-sm"

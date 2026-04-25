@@ -56,7 +56,7 @@ export default function Header() {
         </button>
 
         <a
-          href="/CV-RichieGiansanto.pdf"
+          href="/CV-RichieGiansanto-AI.pdf"
           target="_blank"
           rel="noopener noreferrer"
           className="ml-1 text-white text-sm px-3.5 py-1.5 rounded-full bg-orange-500/75 hover:bg-orange-500 transition-all duration-200 hover:scale-105 font-semibold shadow-[0_0_14px_rgba(255,159,64,0.35)]"
