@@ -19,9 +19,10 @@ export default function ChatBotWrapper() {
   }, []);
 
   return (
-    <ChatBot 
-      externalOpen={isChatbotOpen} 
-      onExternalClose={() => setIsChatbotOpen(false)} 
+    <ChatBot
+      externalOpen={isChatbotOpen}
+      onExternalClose={() => setIsChatbotOpen(false)}
+      hideFab
     />
   );
 }

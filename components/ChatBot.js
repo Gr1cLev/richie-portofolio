@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Markdown from 'react-markdown';
 import { Send, Bot, User, Sparkles, RefreshCw, MessageCircle, X } from 'lucide-react';
 
-export default function ChatBot({ externalOpen, onExternalClose }) {
+export default function ChatBot({ externalOpen, onExternalClose, hideFab = false }) {
   const [isOpen, setIsOpen] = useState(false);
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -91,8 +91,8 @@ export default function ChatBot({ externalOpen, onExternalClose }) {
 
   return (
     <>
-      {/* FAB Button */}
-      <button
+      {/* FAB Button — hidden when accessed from Dock/ControlCenter */}
+      {!hideFab && <button
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Toggle Chat"
         className="fixed bottom-24 md:bottom-6 right-6 z-50 w-12 h-12 rounded-full glass-orange flex items-center justify-center text-white shadow-[0_0_20px_rgba(255,159,64,0.35)] transition-all duration-200 hover:scale-110 hover:shadow-[0_0_28px_rgba(255,159,64,0.50)]"
@@ -103,7 +103,7 @@ export default function ChatBot({ externalOpen, onExternalClose }) {
             <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-green-400 rounded-full shadow-[0_0_6px_rgba(74,222,128,0.8)] animate-pulse" />
           </>
         )}
-      </button>
+      </button>}
 
       {/* Chat Modal */}
       {isOpen && (

@@ -8,10 +8,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "seed": "node --env-file=.env.local scripts/seed-vectors.js"
+    "build-vectors": "node --env-file=.env.local scripts/build-vector-store.js"
   },
   "dependencies": {
-    "@upstash/vector": "^1.2.2",
+    "firebase-admin": "^13.0.0",
     "autoprefixer": "^10.4.22",
     "lucide-react": "^0.554.0",
     "next": "^16.0.10",
