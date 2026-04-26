@@ -3,36 +3,11 @@
 import { useState, useEffect } from 'react';
 import { useOS } from '../../context/OSContext';
 
-const WEATHER_CODES = {
-  0: { icon: '☀️', desc: 'Clear' },
-  1: { icon: '🌤️', desc: 'Mostly Clear' },
-  2: { icon: '⛅', desc: 'Partly Cloudy' },
-  3: { icon: '☁️', desc: 'Overcast' },
-  45: { icon: '🌫️', desc: 'Foggy' },
-  48: { icon: '🌫️', desc: 'Foggy' },
-  51: { icon: '🌦️', desc: 'Drizzle' },
-  61: { icon: '🌧️', desc: 'Rain' },
-  71: { icon: '❄️', desc: 'Snow' },
-  80: { icon: '🌦️', desc: 'Showers' },
-  95: { icon: '⛈️', desc: 'Thunderstorm' },
-};
-
-function getWeatherInfo(code) {
-  if (code === 0) return WEATHER_CODES[0];
-  if (code <= 3) return WEATHER_CODES[code] || WEATHER_CODES[3];
-  if (code <= 48) return WEATHER_CODES[45];
-  if (code <= 67) return WEATHER_CODES[61];
-  if (code <= 77) return WEATHER_CODES[71];
-  if (code <= 82) return WEATHER_CODES[80];
-  return WEATHER_CODES[95];
-}
-
 export default function LockScreen({ onUnlock }) {
   const { state } = useOS();
   const [time, setTime] = useState('');
   const [date, setDate] = useState('');
   const [phase, setPhase] = useState('idle'); // idle | faceId | done
-  const [weather, setWeather] = useState(null);
   const [leaving, setLeaving] = useState(false);
 
   // Clock
@@ -47,31 +22,9 @@ export default function LockScreen({ onUnlock }) {
     return () => clearInterval(id);
   }, []);
 
-  // Weather via Open-Meteo (no API key needed)
-  useEffect(() => {
-    if (!navigator.geolocation) return;
-    navigator.geolocation.getCurrentPosition(
-      async ({ coords }) => {
-        try {
-          const res = await fetch(
-            `https://api.open-meteo.com/v1/forecast?latitude=${coords.latitude}&longitude=${coords.longitude}&current=temperature_2m,weathercode&temperature_unit=celsius`
-          );
-          const data = await res.json();
-          const code = data.current.weathercode;
-          const temp = Math.round(data.current.temperature_2m);
-          setWeather({ ...getWeatherInfo(code), temp });
-        } catch {
-          // silently fail
-        }
-      },
-      () => {} // denied — no weather shown
-    );
-  }, []);
-
   const handleTap = () => {
     if (phase !== 'idle') return;
     setPhase('faceId');
-    // Face ID completes, then swipe up
     setTimeout(() => {
       setPhase('done');
       setLeaving(true);
@@ -130,14 +83,6 @@ export default function LockScreen({ onUnlock }) {
           {date}
         </p>
 
-        {/* Weather */}
-        {weather && (
-          <div className="flex items-center gap-2 mt-2 px-4 py-2 rounded-full" style={{ background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.18)' }}>
-            <span className="text-lg">{weather.icon}</span>
-            <span className="text-white/85 text-sm font-medium">{weather.temp}°C · {weather.desc}</span>
-          </div>
-        )}
-
         {/* Face ID */}
         {phase === 'faceId' && (
           <div className="mt-8 flex flex-col items-center gap-4">
@@ -156,7 +101,6 @@ export default function LockScreen({ onUnlock }) {
       {/* Bottom: slide to unlock */}
       {phase === 'idle' && (
         <div className="absolute bottom-12 left-0 right-0 flex flex-col items-center gap-3">
-          {/* Swipe up arrow */}
           <div className="flex flex-col items-center gap-1 opacity-70">
             <svg className="w-5 h-5 text-white animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 15l7-7 7 7" />
