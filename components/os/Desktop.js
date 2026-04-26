@@ -129,7 +129,7 @@ export default function Desktop() {
     return () => { delete window.lockScreen; delete window.changeWallpaper; };
   });
 
-  const wallpaperUrl = state.wallpaper || '/wallpaper.jpg';
+  const wallpaperUrl = state.wallpaper || '/Makii.jpg';
   const dimOpacity = (100 - state.brightness) / 100 * 0.75;
 
   return (

@@ -32,7 +32,7 @@ export default function LockScreen({ onUnlock }) {
     }, 1800);
   };
 
-  const wallpaperUrl = state.wallpaper || '/wallpaper.jpg';
+  const wallpaperUrl = state.wallpaper || '/Makii.jpg';
 
   return (
     <div
