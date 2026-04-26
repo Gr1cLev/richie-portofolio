@@ -3,7 +3,7 @@ import Image from 'next/image';
 const stats = [
   { value: '3.95', label: 'GPA' },
   { value: '3+', label: 'Years Coding' },
-  { value: '4+', label: 'Projects' },
+  { value: 'AI · Data · ML', label: 'Focus' },
 ];
 
 const info = [
@@ -31,7 +31,7 @@ export default function AboutApp() {
         </div>
         <div>
           <h2 className="text-white font-bold text-xl leading-tight">Richie Giansanto</h2>
-          <p className="text-white/50 text-sm mt-1">Full-Stack Developer &amp; ML Engineer</p>
+          <p className="text-white/50 text-sm mt-1">AI · Data · ML</p>
           <span
             className="inline-block mt-2 px-2.5 py-0.5 rounded-full text-[11px] font-semibold"
             style={{ background: 'rgba(52,211,153,0.18)', border: '1px solid rgba(52,211,153,0.35)', color: 'rgba(110,231,183,0.95)' }}
@@ -55,15 +55,16 @@ export default function AboutApp() {
       <div className="glass-card p-5 space-y-3">
         <h3 className="text-white font-semibold text-sm">About</h3>
         <p className="text-white/60 text-sm leading-relaxed">
-          Dedicated CS student at UMN with a dual focus on{' '}
-          <span className="text-white/85 font-medium">full-stack development</span> and{' '}
-          <span className="text-white/85 font-medium">machine learning mastery</span>. I build
-          applications end-to-end — from robust backends (Node.js, FastAPI) to responsive Android
-          interfaces (Kotlin).
+          Informatics student at{' '}
+          <span className="text-white/85 font-medium">Universitas Multimedia Nusantara</span> with a{' '}
+          <span className="text-white/85 font-medium">3.95 GPA</span>, specializing in{' '}
+          <span className="text-white/85 font-medium">Machine Learning, Deep Learning, NLP, and MLOps</span>.
+          Proficient in Python, Kotlin, JavaScript, SQL, and REST APIs, with hands-on experience
+          building end-to-end ML pipelines and full-stack applications.
         </p>
         <p className="text-white/60 text-sm leading-relaxed">
-          Deep expertise in the ML lifecycle: data processing, model building (PyTorch, BERT),
-          and <span className="text-white/85 font-medium">MLOps</span> workflows (CI/CD, Docker, MLflow).
+          Currently gaining real-world experience as an{' '}
+          <span className="text-white/85 font-medium">IT &amp; Data Engineer Intern</span> at PT Aryaduta International Management.
         </p>
       </div>
 

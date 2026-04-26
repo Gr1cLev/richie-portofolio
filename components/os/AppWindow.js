@@ -6,12 +6,14 @@ import AboutApp from '../apps/AboutApp';
 import ProjectsApp from '../apps/ProjectsApp';
 import SkillsApp from '../apps/SkillsApp';
 import ContactApp from '../apps/ContactApp';
+import MusicApp from '../apps/MusicApp';
 
 const APP_REGISTRY = {
   about:    { component: AboutApp,    title: 'About Me'  },
   projects: { component: ProjectsApp, title: 'Projects'  },
   skills:   { component: SkillsApp,   title: 'Skills'    },
   contact:  { component: ContactApp,  title: 'Contact'   },
+  music:    { component: MusicApp,    title: 'Music'     },
 };
 
 export default function AppWindow() {

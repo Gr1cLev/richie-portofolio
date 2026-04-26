@@ -46,6 +46,14 @@ export const APPS = [
     gradientFrom: '#c026d3',
     gradientTo: '#7c3aed',
     isChat: true,
+    badge: '1',
+  },
+  {
+    id: 'music',
+    label: 'Music',
+    emoji: '🎵',
+    gradientFrom: '#e11d48',
+    gradientTo: '#f59e0b',
   },
   {
     id: 'cv',

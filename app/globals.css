@@ -259,6 +259,103 @@ body {
 }
 
 /* ============================================
+   LOCK SCREEN & TRANSITIONS
+   ============================================ */
+
+/* Blink transition overlay (home → lock) */
+@keyframes blinkToLock {
+  0%   { opacity: 0; }
+  60%  { opacity: 1; }
+  100% { opacity: 1; }
+}
+.animate-blink-lock {
+  animation: blinkToLock 0.25s ease-in forwards;
+}
+
+/* Lock → home: swipe up */
+@keyframes swipeUp {
+  0%   { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-100%); opacity: 0; }
+}
+.animate-swipe-up {
+  animation: swipeUp 0.45s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Slide-to-unlock shimmer */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.slide-to-unlock {
+  background: linear-gradient(90deg,
+    rgba(255,255,255,0.25) 0%,
+    rgba(255,255,255,0.85) 40%,
+    rgba(255,255,255,0.85) 60%,
+    rgba(255,255,255,0.25) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 2.5s linear infinite;
+}
+
+/* Face ID scanner */
+@keyframes faceIdScan {
+  0%   { transform: translateY(0); opacity: 1; }
+  50%  { transform: translateY(100px); opacity: 0.4; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+@keyframes faceIdPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.5); }
+  50%       { box-shadow: 0 0 0 12px rgba(255,255,255,0); }
+}
+.face-id-frame {
+  width: 120px;
+  height: 120px;
+  position: relative;
+  animation: faceIdPulse 1.2s ease-out;
+}
+.face-id-frame::before,
+.face-id-frame::after {
+  content: '';
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-color: rgba(255,255,255,0.9);
+  border-style: solid;
+}
+.face-id-frame::before {
+  top: 0; left: 0;
+  border-width: 3px 0 0 3px;
+  border-radius: 4px 0 0 0;
+  box-shadow: 120px 0 0 0 rgba(255,255,255,0), 0 120px 0 0 rgba(255,255,255,0), 120px 120px 0 0 rgba(255,255,255,0);
+}
+.face-id-frame::after {
+  bottom: 0; right: 0;
+  border-width: 0 3px 3px 0;
+  border-radius: 0 0 4px 0;
+}
+.face-id-corner-tl { position: absolute; top: 0; left: 0; width: 28px; height: 28px; border-top: 3px solid rgba(255,255,255,0.9); border-left: 3px solid rgba(255,255,255,0.9); border-radius: 4px 0 0 0; }
+.face-id-corner-tr { position: absolute; top: 0; right: 0; width: 28px; height: 28px; border-top: 3px solid rgba(255,255,255,0.9); border-right: 3px solid rgba(255,255,255,0.9); border-radius: 0 4px 0 0; }
+.face-id-corner-bl { position: absolute; bottom: 0; left: 0; width: 28px; height: 28px; border-bottom: 3px solid rgba(255,255,255,0.9); border-left: 3px solid rgba(255,255,255,0.9); border-radius: 0 0 0 4px; }
+.face-id-corner-br { position: absolute; bottom: 0; right: 0; width: 28px; height: 28px; border-bottom: 3px solid rgba(255,255,255,0.9); border-right: 3px solid rgba(255,255,255,0.9); border-radius: 0 0 4px 0; }
+.face-id-scan-line {
+  position: absolute;
+  left: 10px; right: 10px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+  animation: faceIdScan 0.9s ease-in-out 2;
+  border-radius: 1px;
+}
+
+/* Spinning disc for Music app */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ============================================
    RANGE SLIDERS (Control Center)
    ============================================ */
 input[type='range'] {
